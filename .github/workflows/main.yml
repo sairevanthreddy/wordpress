@@ -52,6 +52,10 @@ jobs:
         run: |
           wp config create --dbname=wordpress --dbuser=root --dbpass=root --dbhost=127.0.0.1 --dbcharset=utf8 --dbcollate=
           
+      - name: Set up MySQL service
+        run: |
+          sudo service mysql start
+          
       - name: Install and activate WordPress
         run: wp core install --url=http://localhost --title=Test --admin_user=admin --admin_password=password --admin_email=admin@example.com
 
