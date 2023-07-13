@@ -1,7 +1,7 @@
 name: Deployment
 on:
   push:
-    branches: [ wp-pages ]
+    branches: wp-pages
 jobs:
   deploy:
     runs-on: ubuntu-latest
