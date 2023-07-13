@@ -45,6 +45,14 @@ jobs:
           sudo curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
           sudo chmod +x wp-cli.phar
           sudo mv wp-cli.phar /usr/local/bin/wp
+      - name: Create wp-config.php
+        run: |
+          wp config create --dbname=wordpress --dbuser=root --dbpass=root --dbhost=127.0.0.1 --dbcharset=utf8 --dbcollate=
+
+      - name: Copy wp-config.php
+        run: |
+          cp wp-config.php wordpress/wp-config.php
+
 
       - name: Install and activate WordPress
         run: |
