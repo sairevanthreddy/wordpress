@@ -50,17 +50,8 @@ jobs:
 
       - name: Create wp-config.php
         run: |
-          echo "<?php" > wp-config.php
-          echo "\$config_file = file_get_contents('https://api.wordpress.org/secret-key/1.1/salt/');" >> wp-config.php
-          echo "\$config_file = str_replace('<?php', '', \$config_file);" >> wp-config.php
-          echo "file_put_contents('wp-config.php', \$config_file, FILE_APPEND);" >> wp-config.php
-          echo "file_put_contents('wp-config.php', 'define(\'DB_NAME\', \'wordpress\');' . PHP_EOL, FILE_APPEND);" >> wp-config.php
-          echo "file_put_contents('wp-config.php', 'define(\'DB_USER\', \'root\');' . PHP_EOL, FILE_APPEND);" >> wp-config.php
-          echo "file_put_contents('wp-config.php', 'define(\'DB_PASSWORD\', \'root\');' . PHP_EOL, FILE_APPEND);" >> wp-config.php
-          echo "file_put_contents('wp-config.php', 'define(\'DB_HOST\', \'127.0.0.1\');' . PHP_EOL, FILE_APPEND);" >> wp-config.php
-          echo "file_put_contents('wp-config.php', 'define(\'DB_CHARSET\', \'utf8\');' . PHP_EOL, FILE_APPEND);" >> wp-config.php
-          echo "file_put_contents('wp-config.php', 'define(\'DB_COLLATE\', \'\');' . PHP_EOL, FILE_APPEND);" >> wp-config.php
-
+          wp config create --dbname=wordpress --dbuser=root --dbpass=root --dbhost=127.0.0.1 --dbcharset=utf8 --dbcollate=
+          
       - name: Install and activate WordPress
         run: wp core install --url=http://localhost --title=Test --admin_user=admin --admin_password=password --admin_email=admin@example.com
 
