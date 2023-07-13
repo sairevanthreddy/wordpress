@@ -3,21 +3,11 @@ name: CI/CD
 on:
   push:
     branches:
-      - wp-pages
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: wordpress
-        ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
       - name: Checkout code
@@ -26,7 +16,7 @@ jobs:
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.2'
+          php-version: '8.0'
 
       - name: Install Composer dependencies
         run: composer install
@@ -36,22 +26,23 @@ jobs:
           mkdir -p .github/keys
           openssl genrsa -out .github/keys/private.key 2048
           openssl rsa -pubout -in .github/keys/private.key -out .github/keys/public.key
-          
+
       - name: Install wp-cli
         run: |
           sudo curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
           sudo chmod +x wp-cli.phar
           sudo mv wp-cli.phar /usr/local/bin/wp
 
+      - name: Set up MySQL
+        run: |
+          sudo apt-get -y install mysql-client
+
       - name: Create wp-config.php
         run: |
-          sleep 10
-          wp config create --dbname=wp_db --dbuser=admin --dbpass=admin123 --dbhost=@localhost --dbcharset=utf8 --dbcollate=
-          
-          
-      - name: Install and activate WordPress
-        run: wp core install --url=http://localhost --title=Test --admin_user=admin --admin_password=admin123 --admin_email=sairevanthreddy24@gmail.com
+          wp config create --dbname=wordpress --dbuser=root --dbpass=root --dbhost=localhost --dbcharset=utf8 --dbcollate=
 
+      - name: Install and activate WordPress
+        run: wp core install --url=http://localhost --title=Test --admin_user=admin --admin_password=password --admin_email=admin@example.com
 
       - name: Run tests
         run: |
