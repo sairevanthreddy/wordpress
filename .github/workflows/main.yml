@@ -1,15 +1,14 @@
-name: Deployment
+name: WordPress CI/CD
+
 on:
   push:
-    branches: wp-pages
+    branches:
+      - wp-pages
+
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v2
-      with:
-        node-version: 12.x
-    - name: Build
-      run: npm run build
-    
+      - name: Checkout code
+        uses: actions/checkout@v2
