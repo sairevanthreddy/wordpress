@@ -19,9 +19,7 @@ jobs:
         php-version: '7.4'  # Change this to match your PHP version
 
     - name: Install dependencies
-      run: |
-        curl -sS https://getcomposer.org/installer | php
-        php composer.phar install
+      run: composer install
 
     - name: Build and Test
       run: |
