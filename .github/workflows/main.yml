@@ -36,7 +36,7 @@ jobs:
           echo "DB_NAME=wordpress" >> $GITHUB_ENV
           echo "DB_USER=root" >> $GITHUB_ENV
           echo "DB_PASSWORD=root" >> $GITHUB_ENV
-          echo "DB_HOST=@localhost" >> $GITHUB_ENV
+          echo "DB_HOST=127.0.0.1" >> $GITHUB_ENV
           echo "DB_CHARSET=utf8" >> $GITHUB_ENV
           echo "DB_COLLATE=" >> $GITHUB_ENV
 
@@ -48,7 +48,7 @@ jobs:
 
       - name: Create wp-config.php
         run: |
-          wp config create --dbname=wordpress --dbuser=root --dbpass=root --dbhost=@localhost --dbcharset=utf8 --dbcollate=
+          wp config create --dbname=wordpress --dbuser=root --dbpass=root --dbhost=127.0.0.1 --dbcharset=utf8 --dbcollate=
 
       - name: Create WordPress directory
         run: |
