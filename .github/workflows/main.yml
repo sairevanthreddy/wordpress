@@ -36,7 +36,7 @@ jobs:
           echo "DB_NAME=wordpress" >> $GITHUB_ENV
           echo "DB_USER=root" >> $GITHUB_ENV
           echo "DB_PASSWORD=root" >> $GITHUB_ENV
-          echo "DB_HOST=mysql" >> $GITHUB_ENV
+          echo "DB_HOST=127.0.0.1" >> $GITHUB_ENV
           echo "DB_CHARSET=utf8" >> $GITHUB_ENV
           echo "DB_COLLATE=" >> $GITHUB_ENV
 
@@ -46,12 +46,9 @@ jobs:
           sudo chmod +x wp-cli.phar
           sudo mv wp-cli.phar /usr/local/bin/wp
 
-      - name: Start MySQL service
-        run: sudo service mysql start
-
       - name: Create wp-config.php
         run: |
-          wp config create --dbname=wordpress --dbuser=root --dbpass=root --dbhost=127.0.0.1 --dbcharset=utf8 --dbcollate=
+          wp config create --dbname=wordpress --dbuser=root --dbpass=root --dbhost=mysql --dbcharset=utf8 --dbcollate=
 
       - name: Create WordPress directory
         run: |
