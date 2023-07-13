@@ -11,7 +11,7 @@ jobs:
 
     services:
       mysql:
-        image: mysql:7.2
+        image: mysql:'7.2'
         env:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: wordpress
