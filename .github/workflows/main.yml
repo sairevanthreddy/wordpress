@@ -36,11 +36,6 @@ jobs:
           mkdir -p .github/keys
           openssl genrsa -out .github/keys/private.key 2048
           openssl rsa -pubout -in .github/keys/private.key -out .github/keys/public.key
-
-      - name: Set up MySQL
-        run: |
-          sudo apt-get -y install mysql-client
-          mysql -h 127.0.0.1 -u root -proot -e "CREATE DATABASE IF NOT EXISTS wordpress;"
           
       - name: Install wp-cli
         run: |
@@ -52,9 +47,6 @@ jobs:
         run: |
           wp config create --dbname=wordpress --dbuser=root --dbpass=root --dbhost=127.0.0.1 --dbcharset=utf8 --dbcollate=
           
-      - name: Set up MySQL service
-        run: |
-          sudo service mysql start
           
       - name: Install and activate WordPress
         run: wp core install --url=http://localhost --title=Test --admin_user=admin --admin_password=password --admin_email=admin@example.com
