@@ -30,9 +30,6 @@ jobs:
 
       - name: Install Composer dependencies
         run: composer install
-      - name: Set up MySQL service
-        run: |
-          sudo service mysql enable
 
       - name: Generate Keys
         run: |
