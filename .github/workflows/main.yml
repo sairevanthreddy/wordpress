@@ -1,4 +1,4 @@
-name: WordPress CI/CD
+name: CI/CD
 
 on:
   push:
@@ -12,8 +12,36 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Run tests
-        run: vendor/bin/phpunit
-      - name: List files in the repository
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'
+
+      - name: Install Composer dependencies
+        run: composer install
+
+      - name: Generate Keys
         run: |
-          ls ${{ github.workspace }}
+          mkdir -p .github/keys
+          openssl genrsa -out .github/keys/private.key 2048
+          openssl rsa -pubout -in .github/keys/private.key -out .github/keys/public.key
+
+      - name: Set up MySQL
+        run: |
+          sudo apt-get -y install mysql-server
+          sudo mysql -e "CREATE DATABASE IF NOT EXISTS wordpress;"
+
+      - name: Configure WordPress
+        run: |
+          cp wp-config-sample.php wp-config.php
+          sed -i "s/database_name_here/wordpress/" wp-config.php
+          sed -i "s/username_here/root/" wp-config.php
+          sed -i "s/password_here/root/" wp-config.php
+
+      - name: Install and activate WordPress
+        run: wp core install --url=http://localhost --title=Test --admin_user=admin --admin_password=password --admin_email=admin@example.com
+
+      - name: Run tests
+        run: |
+          # Add your test commands here
