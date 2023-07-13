@@ -1,0 +1,38 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - wp-pages  # Change this if your main branch has a different name
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '7.4'  # Change this to match your PHP version
+
+    - name: Install dependencies
+      run: |
+        curl -sS https://getcomposer.org/installer | php
+        php composer.phar install
+
+    - name: Build and Test
+      run: |
+        # Run any build or test commands specific to your WordPress project
+
+    - name: Deploy to server
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SERVER_HOST }}  # Add your server host as a secret in your repository settings
+        username: ${{ secrets.SERVER_USERNAME }}  # Add your server username as a secret
+        key: ${{ secrets.SERVER_SSH_KEY }}  # Add your SSH key as a secret
+        port: ${{ secrets.SERVER_PORT }}  # Add your server port as a secret
+        script: |
+          # Run commands to deploy your WordPress project to the server
