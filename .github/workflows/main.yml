@@ -45,11 +45,11 @@ jobs:
 
       - name: Create wp-config.php
         run: |
-          wp config create --dbname=wordpress --dbuser=root --dbpass=root --dbhost=127.0.0.1 --dbcharset=utf8 --dbcollate=
+          wp config create --dbname=wp_db --dbuser=admin --dbpass=admin123 --dbhost=127.0.0.1 --dbcharset=utf8 --dbcollate=
           
           
       - name: Install and activate WordPress
-        run: wp core install --url=http://localhost --title=Test --admin_user=admin --admin_password=password --admin_email=admin@example.com
+        run: wp core install --url=http://localhost --title=Test --admin_user=admin --admin_password=admin123 --admin_email=sairevanthreddy24@gmail.com
 
 
       - name: Run tests
