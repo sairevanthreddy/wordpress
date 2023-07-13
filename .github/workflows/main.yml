@@ -46,7 +46,7 @@ jobs:
       - name: Create wp-config.php
         run: |
           sleep 10
-          wp config create --dbname=wp_db --dbuser=admin --dbpass=admin123 --dbhost=admin@localhost --dbcharset=utf8 --dbcollate=
+          wp config create --dbname=wp_db --dbuser=admin --dbpass=admin123 --dbhost=@localhost --dbcharset=utf8 --dbcollate=
           
           
       - name: Install and activate WordPress
