@@ -40,10 +40,16 @@ jobs:
       - name: Create wp-config.php
         run: |
           wp config create --dbname=wordpress --dbuser=root --dbpass=root --dbhost=localhost --dbcharset=utf8 --dbcollate=
+    
+      - name: Configure MySQL connection
+        run: |
+          echo "[client]" > ~/.my.cnf
+          echo "user=root" >> ~/.my.cnf
+          echo "password=root" >> ~/.my.cnf
+          echo "host=127.0.0.1" >> ~/.my.cnf
 
       - name: Install and activate WordPress
         run: wp core install --url=http://localhost --title=Test --admin_user=admin --admin_password=password --admin_email=admin@example.com
 
       - name: Run tests
         run: |
-          # Add your test commands here
