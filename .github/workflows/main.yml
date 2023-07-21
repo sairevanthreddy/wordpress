@@ -1,4 +1,4 @@
-name: CI/CD
+name: CI/CD for WordPress
 
 on:
   push:
@@ -6,18 +6,8 @@ on:
       - wp-pages
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
-
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: wordpress
-        ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
       - name: Checkout code
@@ -26,42 +16,14 @@ jobs:
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.2'
+          php-version: '7.4' # Adjust the version based on your PHP requirements
 
-      - name: Install Composer dependencies
-        run: composer install
-
-      - name: Set up MySQL connection
+      - name: Install dependencies
         run: |
-          echo "DB_NAME=wordpress" >> $GITHUB_ENV
-          echo "DB_USER=root" >> $GITHUB_ENV
-          echo "DB_PASSWORD=root" >> $GITHUB_ENV
-          echo "DB_HOST=127.0.0.1" >> $GITHUB_ENV
-          echo "DB_CHARSET=utf8" >> $GITHUB_ENV
-          echo "DB_COLLATE=" >> $GITHUB_ENV
+          cd /var/www/html
+          composer install --no-dev --prefer-dist
 
-      - name: Install wp-cli
+      - name: Deploy to EC2
         run: |
-          sudo curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-          sudo chmod +x wp-cli.phar
-          sudo mv wp-cli.phar /usr/local/bin/wp
-
-      - name: Create wp-config.php
-        run: |
-          wp config create --dbname=wordpress --dbuser=root --dbpass=root --dbhost=127.0.0.1 --dbcharset=utf8 --dbcollate=
-
-      - name: Create WordPress directory
-        run: |
-          mkdir -p wordpress
-
-      - name: Copy wp-config.php
-        run: |
-          cp wp-config.php wordpress/wp-config.php
-
-      - name: Install and activate WordPress
-        run: |
-          wp core install --url=http://localhost --title=Test --admin_user=root --admin_password=root --admin_email=admin@example.com
-
-      - name: Run tests
-        run: |
-          # Add your test commands here
+          scp -i /path/to/your/private_key.pem -r /var/www/html/* ec2-user@your_ec2_instance_public_ip:/var/www/html/
+          ssh -i /path/to/your/private_key.pem ec2-user@your_ec2_instance_public_ip 'sudo systemctl restart httpd'
