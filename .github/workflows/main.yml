@@ -1,4 +1,4 @@
-name: CI/CD for WordPress
+name: WordPress CI/CD Pipeline
 
 on:
   push:
@@ -10,20 +10,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Set up PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '7.4' # Adjust the version based on your PHP requirements
-
-      - name: Install dependencies
+      - name: Install Dependencies
         run: |
-          cd /var/www/html
-          composer install --no-dev --prefer-dist
+          sudo apt-get update
+          sudo apt-get install -y apache2 php mysql-client
 
       - name: Deploy to EC2
         run: |
-          scp -i /path/to/your/private_key.pem -r /var/www/html/* ec2-user@your_ec2_instance_public_ip:/var/www/html/
-          ssh -i /path/to/your/private_key.pem ec2-user@your_ec2_instance_public_ip 'sudo systemctl restart httpd'
+          # Replace the EC2_IP_ADDRESS with the public IP or DNS of your EC2 instance
+          ssh -i ${{ ssh -i "wordpress-key.pem" ubuntu@ec2-52-207-106-140.compute-1.amazonaws.com }} ubuntu@52.207.106.140 'cd /var/www/html/wordpress && git pull origin wp-pages'
+
+
+      - name: Restart Apache Server
+        run: sudo service apache2 restart
