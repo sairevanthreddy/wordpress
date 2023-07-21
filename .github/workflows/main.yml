@@ -3,7 +3,7 @@ name: WordPress CI/CD Pipeline
 on:
   push:
     branches:
-      - wp-pages
+      - main
 
 jobs:
   deploy:
@@ -21,7 +21,7 @@ jobs:
       - name: Deploy to EC2
         run: |
           # Replace the EC2_IP_ADDRESS with the public IP or DNS of your EC2 instance
-          ssh -i "wordpress-key.pem" ubuntu@ec2-52-207-106-140.compute-1.amazonaws.com'cd /var/www/html/wordpress && git pull origin wp-pages'
+          ssh -i ${{ secrets.EC2_SSH_PRIVATE_KEY }} ubuntu@EC2_IP_ADDRESS 'cd /var/www/html && git pull origin main'
 
 
       - name: Restart Apache Server
