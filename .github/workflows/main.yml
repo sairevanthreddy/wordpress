@@ -18,8 +18,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      
-
+          aws-region: us-east-1
       - name: Transfer files to EC2 instance
         run: |
           ssh -i ${{ secrets.EC2_SSH_PRIVATE_KEY }} ec2-user@YOUR_EC2_INSTANCE_IP_ADDRESS 'rm -rf ~/wordpress/*'  # Remove existing files
