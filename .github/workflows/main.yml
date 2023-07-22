@@ -19,19 +19,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
-      - name: Transfer files to EC2 instance
-        run: |
-          ssh -i ${{ secrets.EC2_SSH_PRIVATE_KEY }} ec2-user@YOUR_EC2_INSTANCE_IP_ADDRESS 'rm -rf ~/wordpress/*'  # Remove existing files
-          scp -i ${{ secrets.EC2_SSH_PRIVATE_KEY }} -r ./wordpress/* ec2-user@YOUR_EC2_INSTANCE_IP_ADDRESS:~/wordpress/  # Upload new files
-
-      - name: Configure wp-config.php
-        run: |
-          ssh -i ${{ secrets.EC2_SSH_PRIVATE_KEY }} ec2-user@YOUR_EC2_INSTANCE_IP_ADDRESS 'cd ~/wordpress && cp wp-config-sample.php wp-config.php'
-          ssh -i ${{ secrets.EC2_SSH_PRIVATE_KEY }} ec2-user@YOUR_EC2_INSTANCE_IP_ADDRESS "sed -i 's/database_name_here/YOUR_DB_NAME/' ~/wordpress/wp-config.php"
-          ssh -i ${{ secrets.EC2_SSH_PRIVATE_KEY }} ec2-user@YOUR_EC2_INSTANCE_IP_ADDRESS "sed -i 's/username_here/YOUR_DB_USERNAME/' ~/wordpress/wp-config.php"
-          ssh -i ${{ secrets.EC2_SSH_PRIVATE_KEY }} ec2-user@YOUR_EC2_INSTANCE_IP_ADDRESS "sed -i 's/password_here/YOUR_DB_PASSWORD/' ~/wordpress/wp-config.php"
-          ssh -i ${{ secrets.EC2_SSH_PRIVATE_KEY }} ec2-user@YOUR_EC2_INSTANCE_IP_ADDRESS "sed -i 's/localhost/YOUR_RDS_ENDPOINT/' ~/wordpress/wp-config.php"
-
+          
       - name: Database Migration (if required)
         run: |
           # Use WP-CLI or any other migration tool here to handle database schema changes or data import.
