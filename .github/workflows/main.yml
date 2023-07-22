@@ -33,4 +33,4 @@ jobs:
           rm -f ~/.ssh/known_hosts
           ssh-keyscan ec2-44-210-131-124.compute-1.amazonaws.com >> ~/.ssh/known_hosts
           run: ls -R
-          scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r wordpress/ ubuntu@ec2-44-210-131-124.compute-1.amazonaws.com /var/www/html/
+          
