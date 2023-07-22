@@ -32,5 +32,5 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           
       - name: Set up SSH Known Hosts
-        run: ssh-keyscan your-ec2-instance-ip >> ~/.ssh/known_hosts
+        run: ssh -i "wordpress-key.pem" ubuntu@ec2-44-210-131-124.compute-1.amazonaws.com >> ~/.ssh/known_hosts
 
