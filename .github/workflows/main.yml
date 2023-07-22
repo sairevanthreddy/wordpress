@@ -20,11 +20,14 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
           
-      - name: Database Migration (if required)
-        run: |
-          # Use WP-CLI or any other migration tool here to handle database schema changes or data import.
+      # Step 3: Install OpenSSH client on the runner
+      - name: Install SSH Client
+        run: sudo apt-get install -y openssh-client
 
-      - name: Restart Apache web server
+      # Step 4: Prepare SSH key
+      - name: Prepare SSH Key
         run: |
-          ssh -i ${{ secrets.EC2_SSH_PRIVATE_KEY }} ec2-user@YOUR_EC2_INSTANCE_IP_ADDRESS 'sudo systemctl restart httpd'
+          mkdir -p ~/.ssh
+          echo "$AWS_EC2_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
 
