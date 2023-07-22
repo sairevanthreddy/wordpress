@@ -3,26 +3,41 @@ name: WordPress CI/CD Pipeline
 on:
   push:
     branches:
-      - wp-pages
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install Dependencies
+      - name: Set up AWS CLI
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1  # Replace with your desired AWS region
+
+      - name: Transfer files to EC2 instance
         run: |
-          sudo apt-get update
-          sudo apt-get install -y apache2 php mysql-client
+          ssh -i ${{ secrets.EC2_SSH_PRIVATE_KEY }} ec2-user@YOUR_EC2_INSTANCE_IP_ADDRESS 'rm -rf ~/wordpress/*'  # Remove existing files
+          scp -i ${{ secrets.EC2_SSH_PRIVATE_KEY }} -r ./wordpress/* ec2-user@YOUR_EC2_INSTANCE_IP_ADDRESS:~/wordpress/  # Upload new files
 
-      - name: Deploy to EC2
+      - name: Configure wp-config.php
         run: |
-          # Replace the EC2_IP_ADDRESS with the public IP or DNS of your EC2 instance
-          ssh -i ${{ secrets.EC2_SSH_PRIVATE_KEY }} ubuntu@EC2_IP_ADDRESS 'cd /var/www/html && git pull origin main'
+          ssh -i ${{ secrets.EC2_SSH_PRIVATE_KEY }} ec2-user@YOUR_EC2_INSTANCE_IP_ADDRESS 'cd ~/wordpress && cp wp-config-sample.php wp-config.php'
+          ssh -i ${{ secrets.EC2_SSH_PRIVATE_KEY }} ec2-user@YOUR_EC2_INSTANCE_IP_ADDRESS "sed -i 's/database_name_here/YOUR_DB_NAME/' ~/wordpress/wp-config.php"
+          ssh -i ${{ secrets.EC2_SSH_PRIVATE_KEY }} ec2-user@YOUR_EC2_INSTANCE_IP_ADDRESS "sed -i 's/username_here/YOUR_DB_USERNAME/' ~/wordpress/wp-config.php"
+          ssh -i ${{ secrets.EC2_SSH_PRIVATE_KEY }} ec2-user@YOUR_EC2_INSTANCE_IP_ADDRESS "sed -i 's/password_here/YOUR_DB_PASSWORD/' ~/wordpress/wp-config.php"
+          ssh -i ${{ secrets.EC2_SSH_PRIVATE_KEY }} ec2-user@YOUR_EC2_INSTANCE_IP_ADDRESS "sed -i 's/localhost/YOUR_RDS_ENDPOINT/' ~/wordpress/wp-config.php"
 
+      - name: Database Migration (if required)
+        run: |
+          # Use WP-CLI or any other migration tool here to handle database schema changes or data import.
 
-      - name: Restart Apache Server
-        run: sudo service apache2 restart
+      - name: Restart Apache web server
+        run: |
+          ssh -i ${{ secrets.EC2_SSH_PRIVATE_KEY }} ec2-user@YOUR_EC2_INSTANCE_IP_ADDRESS 'sudo systemctl restart httpd'
+
