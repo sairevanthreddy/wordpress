@@ -34,6 +34,7 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           rm -f ~/.ssh/known_hosts
           ssh-keyscan ec2-44-210-131-124.compute-1.amazonaws.com >> ~/.ssh/known_hosts
-          sudo cp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r ./ ubuntu@ec2-44-210-131-124.compute-1.amazonaws.com /tmp/
+          sudo -i
+          scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r ./ ubuntu@ec2-44-210-131-124.compute-1.amazonaws.com /tmp/
       # scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r ./ ubuntu@ec2-44-210-131-124.compute-1.amazonaws.com /var/www/html/
           
