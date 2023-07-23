@@ -34,4 +34,4 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan ec2-3-84-199-172.compute-1.amazonaws.com >> ~/.ssh/known_hosts
           sudo -i
-          systemctl disable apache2
+          systemctl status apache2
