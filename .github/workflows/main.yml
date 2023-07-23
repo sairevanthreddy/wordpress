@@ -35,6 +35,7 @@ jobs:
           rm -f ~/.ssh/known_hosts
           ssh-keyscan ec2-3-84-199-172.compute-1.amazonaws.com >> ~/.ssh/known_hosts
           sudo -i
-          scp -r ./wp-content ubuntu@ec2-3-84-199-172.compute-1.amazonaws.com:/var/www/html/
-      # scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r ./ ubuntu@ec2-44-210-131-124.compute-1.amazonaws.com /var/www/html/
-          
+      - name: Copy files to EC2
+        run: |
+          # Replace <EC2_USERNAME>, <EC2_HOSTNAME>, <REMOTE_DIR_PATH> with your EC2 configuration.
+          scp -r -i ~/.ssh/id_rsa ./* ubuntu@ec2-3-84-199-172.compute-1.amazonaws.com:/var/www/html
