@@ -36,4 +36,4 @@ jobs:
           sudo -i
       - name: Copying files to EC2
         run: |
-          scp ./* ubuntu@ec2-3-84-199-172.compute-1.amazonaws.com:/tmp
+          scp ./* "$AWS_EC2_PRIVATE_KEY"ubuntu@ec2-3-84-199-172.compute-1.amazonaws.com:/tmp
