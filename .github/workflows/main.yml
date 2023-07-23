@@ -35,3 +35,6 @@ jobs:
           ssh-keyscan ec2-3-84-199-172.compute-1.amazonaws.com >> ~/.ssh/known_hosts
       - name: Check User
         run: whoami
+      - name: Deploy to EC2
+        run: |
+          scp -r -i ~/.ssh/id_rsa ./* ubuntu@ec2-3-84-199-172.compute-1.amazonaws.com:/var/www/html/
