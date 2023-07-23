@@ -36,4 +36,4 @@ jobs:
           sudo -i
       - name: Copying files to EC2
         run: |
-          scp -r -i ~/.ssh/id_rsa ./* ubuntu@ec2-3-84-199-172.compute-1.amazonaws.com:/var/www/html
+          scp ./* ubuntu@ec2-3-84-199-172.compute-1.amazonaws.com:/tmp
