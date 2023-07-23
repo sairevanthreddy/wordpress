@@ -31,7 +31,7 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           echo "$AWS_EC2_PRIVATE_KEY" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
+          chmod 770 ~/.ssh/id_rsa
           ssh-keyscan ec2-3-84-199-172.compute-1.amazonaws.com >> ~/.ssh/known_hosts
           sudo -i
           systemctl status apache2
