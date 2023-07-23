@@ -34,6 +34,6 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan ec2-3-84-199-172.compute-1.amazonaws.com >> ~/.ssh/known_hosts
           sudo -i
-      - name: Copy files to EC2
+      - name: Copying files to EC2
         run: |
           scp -r -i ~/.ssh/id_rsa ./* ubuntu@ec2-3-84-199-172.compute-1.amazonaws.com:/var/www/html
