@@ -32,10 +32,8 @@ jobs:
           mkdir -p ~/.ssh
           echo "$AWS_EC2_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          rm -f ~/.ssh/known_hosts
           ssh-keyscan ec2-3-84-199-172.compute-1.amazonaws.com >> ~/.ssh/known_hosts
           sudo -i
       - name: Copy files to EC2
         run: |
-          # Replace <EC2_USERNAME>, <EC2_HOSTNAME>, <REMOTE_DIR_PATH> with your EC2 configuration.
           scp -r -i ~/.ssh/id_rsa ./* ubuntu@ec2-3-84-199-172.compute-1.amazonaws.com:/var/www/html
