@@ -1,40 +1,25 @@
-name: WordPress CI/CD Pipeline
+name: Deploy to EC2
 
 on:
   push:
     branches:
-      - wp-pages
+      - wp-pages  # Change this to your default branch name
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v2
-      - name: List Repository Files
-        run: ls -R
 
-      - name: Set up AWS CLI
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
-          
-      # Step 3: Install OpenSSH client on the runner
-      - name: Install SSH Client
-        run: sudo apt-get install -y openssh-client
-
-      # Step 4: Prepare SSH key
-      - name: Prepare SSH Key
+      - name: Set up SSH Key
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.AWS_EC2_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan ec2-3-84-199-172.compute-1.amazonaws.com >> ~/.ssh/known_hosts
-      - name: Check User
-        run: whoami
-      - name: Deploy to EC2
+          ssh-keyscan 54.175.203.8 >> ~/.ssh/known_hosts
+
+      - name: Connect to EC2 and Run Commands
         run: |
-          scp -r -v -i ~/.ssh/id_rsa ./* ubuntu@3.84.199.172 /var/www/html/
+          ssh ubuntu@54.175.203.8 "cd /path/to/your/app && git pull origin main && npm install && npm run build"
