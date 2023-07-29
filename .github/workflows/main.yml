@@ -22,4 +22,4 @@ jobs:
 
       - name: Connect to EC2 and Run Commands
         run: |
-          ssh ubuntu@54.175.203.8 "cd /path/to/your/app && git pull origin main && npm install && npm run build"
+          ssh root@54.175.203.8 
