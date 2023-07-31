@@ -19,13 +19,13 @@ jobs:
           whoami
           echo "${{ secrets.EC2_MANUAL }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa    
-          ssh-keyscan 3.84.24.19 >> /home/runner/.ssh/known_hosts
+          ssh-keyscan 52.90.87.244 >> /home/runner/.ssh/known_hosts
           cat '/home/runner/.ssh/known_hosts'
           echo "end of ssh key setup"
 
       - name: Connect to EC2 and Run Commands
         run: |
-          ssh -vvv -o StrictHostKeyChecking=no root@3.84.24.19
+          ssh -vvv -o StrictHostKeyChecking=no root@52.90.87.244
              echo "connection made"
              pwd
              cd
@@ -33,3 +33,6 @@ jobs:
              ls
              cd /var/www/html
              ls
+      - name: Connect to EC2 and Copy Files
+        run: |
+          ssh -vvv -o StrictHostKeyChecking=no root@52.90.87.244 "mkdir -p /var/www/html"
