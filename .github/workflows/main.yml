@@ -30,5 +30,6 @@ jobs:
              pwd
              cd
              pwd
+             ls
              cd /var/www/html
              ls
