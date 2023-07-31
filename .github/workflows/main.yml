@@ -15,13 +15,12 @@ jobs:
 
       - name: Set up SSH Key
         run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
-          chmod 740 ~/.ssh/id_rsa
           ssh-keyscan 3.84.24.19 >> ~/.ssh/known_hosts
+          echo "${{ secrets.EC2_MANUAL }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa          
           echo "end of ssh key setup"
 
       - name: Connect to EC2 and Run Commands
         run: |
-          ssh ubuntu@ec2-3-84-24-19 
+          ssh -vvv ubuntu@ec2-3-84-24-19 
           #ssh ubuntu@54.175.203.8 "cd /path/to/your/app && git pull origin main && npm install && npm run build"
