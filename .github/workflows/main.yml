@@ -15,6 +15,7 @@ jobs:
       - name: Print Current Directory
         run: |
           echo "Current directory: $PWD"
+          echo "inside the directory: $ls"
 
       - name: Set up SSH Key
         run: |
