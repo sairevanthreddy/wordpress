@@ -19,7 +19,9 @@ jobs:
           echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
           chmod 740 ~/.ssh/id_rsa
           ssh-keyscan 3.84.24.19 >> ~/.ssh/known_hosts
+          echo "end of ssh key setup"
 
       - name: Connect to EC2 and Run Commands
         run: |
-          ssh -i "${{ secrets.EC2_SSH_KEY }}" ubuntu@ec2-3-84-24-19.compute-1.amazonaws.com 
+          ssh ubuntu@ec2-3-84-24-19.compute-1.amazonaws.com 
+          #ssh ubuntu@54.175.203.8 "cd /path/to/your/app && git pull origin main && npm install && npm run build"
