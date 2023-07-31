@@ -30,4 +30,4 @@ jobs:
       - name: Connect to EC2 and Copy Files
         run: |
           ssh -vvv -o StrictHostKeyChecking=no root@52.90.87.244 "mkdir -p /var/www/html/sai"
-          scp -o StrictHostKeyChecking=no -r sairevanthreddy/wordpress root@52.90.87.244:/var/www/html/sai
+          scp -o StrictHostKeyChecking=no -r wordpress root@52.90.87.244:/var/www/html/sai
