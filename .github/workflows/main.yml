@@ -17,8 +17,8 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan 54.175.203.8 >> ~/.ssh/known_hosts
+          chmod 740 ~/.ssh/id_rsa
+          ssh-keyscan 3.84.24.19 >> ~/.ssh/known_hosts
 
       - name: Connect to EC2 and Run Commands
         run: |
