@@ -15,6 +15,7 @@ jobs:
 
       - name: Set up SSH Key
         run: |
+          touch ~/.ssh/known_hosts
           ssh-keyscan 3.84.24.19 >> ~/.ssh/known_hosts
           echo "${{ secrets.EC2_MANUAL }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa          
