@@ -27,4 +27,5 @@ jobs:
         run: |
           ssh -vvv -o StrictHostKeyChecking=no root@3.84.24.19
              echo "connection made"
+             pwd
              ls /var/www/html
