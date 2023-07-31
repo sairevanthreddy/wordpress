@@ -16,11 +16,10 @@ jobs:
       - name: Set up SSH Key
         run: |
           mkdir -p ~/.ssh
-          pwd
           whoami
           echo "${{ secrets.EC2_MANUAL }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa    
-          ssh-keyscan 3.84.24.19 >> ~/.ssh/known_hosts2
+          ssh-keyscan 3.84.24.19 >> /home/runner/.ssh/known_hosts
           echo "end of ssh key setup"
 
       - name: Connect to EC2 and Run Commands
