@@ -3,7 +3,7 @@ name: Deploy to EC2
 on:
   push:
     branches:
-      - wp-pages  # Change this to your default branch name
+      - wp-pages
 
 jobs:
   deploy:
@@ -22,4 +22,4 @@ jobs:
 
       - name: Connect to EC2 and Run Commands
         run: |
-          ssh root@54.175.203.8 
+          ssh -i "wordpress-key.pem" ubuntu@ec2-3-84-24-19.compute-1.amazonaws.com 
