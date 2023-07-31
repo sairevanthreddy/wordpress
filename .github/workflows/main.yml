@@ -29,5 +29,6 @@ jobs:
              echo "connection made"
              pwd
              cd
-             cd /var/www/html/wordpress
+             pwd
+             cd /var/www/html
              ls
