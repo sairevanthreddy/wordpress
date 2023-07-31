@@ -23,5 +23,5 @@ jobs:
 
       - name: Connect to EC2 and Run Commands
         run: |
-          ssh ubuntu@ec2-3-84-24-19.compute-1.amazonaws.com 
+          ssh ubuntu@ec2-3-84-24-19 
           #ssh ubuntu@54.175.203.8 "cd /path/to/your/app && git pull origin main && npm install && npm run build"
