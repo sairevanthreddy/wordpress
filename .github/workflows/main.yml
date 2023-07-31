@@ -33,4 +33,4 @@ jobs:
            echo "connection made"
       - name: Connect to EC2 and Copy Files
         run: |
-          ssh -vvv -o StrictHostKeyChecking=no root@52.90.87.244 "mkdir -p /var/www/html/sai && git init"
+          ssh -vvv -o StrictHostKeyChecking=no root@52.90.87.244 "mkdir -p /var/www/html/sai && git init && git clone https://github.com/sairevanthreddy/wordpress.git"
